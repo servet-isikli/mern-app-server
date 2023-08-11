@@ -1,28 +1,30 @@
-const { configDotenv } = require("dotenv");
+// server
 const express = require("express");
 const app = express();
 const port = 5000;
-configDotenv;
 
 app.get("/", (req, res) => res.send("Hello World!"));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
+// dotenv
+require("dotenv").config();
+
+//mongoose connection
 const mongoose = require("mongoose");
 
-mongoose.Promise = global.Promise;
+const URL = process.env.CONNECTDB_URL;
 
-// Connect MongoDB at default port 27017.
-mongoose.connect(
-  "mongodb://localhost:27017/DB Name",
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-  },
-  (err) => {
-    if (!err) {
-      console.log("MongoDB Connection Succeeded.");
-    } else {
-      console.log("Error in DB connection: " + err);
-    }
-  }
-);
+mongoose.connect(URL, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
+const connection = mongoose.connection;
+connection.once("open", () => {
+  console.log("MongoDB database connection established successfully");
+});
+
+//listening
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`);
+});
