@@ -67,3 +67,15 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+// Kategoriye göre ürünleri listeleme
+exports.getProductsByCategory = async (req, res) => {
+  const category = req.params.category; // URL'den kategori adını alın
+
+  try {
+    const products = await ProductModel.find({ category: category });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
