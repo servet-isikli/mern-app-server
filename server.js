@@ -7,8 +7,12 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Routes
-const productRoutes = require("./routes/productRoutes"); // Örnek olarak ürün rotalarını içe aktarıyoruz
+// Routes - // Urun rotalarini kullanma
+const productRoutes = require("./routes/productRoutes");
 app.use("/api/products", productRoutes);
 
-module.exports = app; // Uygulamayı dışa aktar
+// Routes - // Kullanici rotalarını kullanma
+const userRoutes = require("./routes/userRoutes");
+app.use("/api/users", userRoutes);
+
+module.exports = app;
